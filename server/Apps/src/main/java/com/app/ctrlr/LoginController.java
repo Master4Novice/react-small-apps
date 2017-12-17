@@ -13,17 +13,25 @@ import com.app.vo.User;
 
 @RestController
 public class LoginController {
-	
+
 	private static final String URL_CROSS = "*";
-	
+
 	@CrossOrigin(origins=URL_CROSS)
 	@PostMapping("/authUser")
 	public CustomResponse authenticateUser(@RequestBody User user) {
 		String message = "";
-		if(user.getUsername().equals("Admin") && user.getPassword().equals("admin")){
-			message = "Success";
-		}else{
-			message = "Failure";
+		try{
+			if(user!=null){
+				if(user.getUsername().equals("Admin") && user.getPassword().equals("admin")){
+					message = "Success";
+				}else{
+					message = "Failure";
+				}
+			}else{
+				message = "Failure";
+			}
+		}catch(Exception e){
+			message = e.getMessage();
 		}
 		return new CustomResponse(message);
 	}
